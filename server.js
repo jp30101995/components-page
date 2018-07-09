@@ -4,27 +4,9 @@ const request = require('request');
 
 server.set('view engine', 'ejs');
 
-server.get('/', (req, res) =>
-  Promise.all([
-    getContents('https://microfrontends-header.herokuapp.com/'),
-    getContents('https://microfrontends-products-list.herokuapp.com/'),
-    getContents('https://microfrontends-cart.herokuapp.com/')
-  ]).then(responses =>
-    res.render('index', { header: responses[0], productsList: responses[1], cart: responses[2] })
-  ).catch(error =>
-    res.send(error.message)
-  )
-);
+server.get('/', (req, res) => res.render('index'));
 
-const getContents = (url) => new Promise((resolve, reject) => {
-  request.get(url, (error, response, body) => {
-    if (error) return resolve("Error loading " + url + ": " + error.message);
-
-    return resolve(body);
-  });
-});
-
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3030;
 server.listen(port, () => {
   console.log(`Homepage listening on port ${port}`);
 });
